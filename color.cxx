@@ -2,13 +2,7 @@
 
 Color::Color() : color_value{0} {}
 
-Color::Color(int r, int g, int b, int a)
-{
-  this->r = r;
-  this->g = g;
-  this->b = b;
-  this->a = a;
-}
+Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) : r{r}, g{g}, b{b}, a{a} {}
 
 Color& Color::operator=(const Color& other)
 {
@@ -34,7 +28,6 @@ Color::Color(Color && other) noexcept : color_value{other.color_value}
 {
   other.color_value = 0;
 }
-
 
 bool Color::operator==(const Color& other) const
 {
