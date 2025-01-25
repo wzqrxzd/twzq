@@ -143,11 +143,11 @@ int chooseColor(const std::array<Color, 5>& colors)
 {
   for (int i{0}; i < colors.size(); i++)
   {
-    std::cout << "\x1b[48;2;" << colors[i].r << ";" 
-              << colors[i].g << ";" << colors[i].b 
-              << "m" << i << ": " << colors[i].r 
-              << ", " << colors[i].g << ", " 
-              << colors[i].b << "\x1b[0m" << std::endl;
+    std::cout << "\x1b[48;2;" << static_cast<int>(colors[i].r) << ";" 
+              << static_cast<int>(colors[i].g) << ";" << static_cast<int>(colors[i].b) 
+              << "m" << i << ": " << static_cast<int>(colors[i].r) 
+              << ", " << static_cast<int>(colors[i].g) << ", " 
+              << static_cast<int>(colors[i].b) << "\x1b[0m" << std::endl;
   }
 
   int index;
@@ -162,21 +162,21 @@ void createDefaultConfig(const std::filesystem::path& filePath)
 {
   json defaultConfig = {
     {"hyprland", {
-      {"active_color", "rgba(6F608DFF)"},
-      {"inactive_color", "rgba(53486AFF)"},
+      {"active_color", ""},
+      {"inactive_color", ""},
       {"path", "/home/wzqrxzd/.config/hypr/hyprland.conf"}
     }},
     {"wallpaper", {
-      {"current", "/home/wzqrxzd/Wallpapers/walp2.jpg"},
+      {"current", ""},
       {"hyprpaper_path", "/home/wzqrxzd/.config/hypr/hyprpaper.conf"},
       {"path_dir", "/home/wzqrxzd/Wallpapers/"}
     }},
     {"waybar", {
-      {"color", "#6F608D"},
+      {"color", ""},
       {"path", "/home/wzqrxzd/.config/waybar/style.css"}
     }},
     {"wofi", {
-      {"color", "#6F608D"},
+      {"color", ""},
       {"path", "/home/wzqrxzd/.config/wofi/style.css"}
     }}
   };
@@ -195,9 +195,9 @@ std::string rgbToHex(const Color& col)
 {
   std::stringstream ss;
   ss << '#'
-     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << col.r
-     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << col.g
-     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << col.b;
+     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.r)
+     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.g)
+     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.b);
   return ss.str();
 }
 
@@ -205,9 +205,9 @@ std::string rgbaToHex(const Color& col)
 {
   std::stringstream ss;
   std::stringstream rgba;
-  ss << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << col.r
-     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << col.g
-     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << col.b
+  ss << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.r)
+     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.g)
+     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.b)
      << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << 255;
 
   rgba << "rgba(" << ss.str() << ")";

@@ -62,7 +62,10 @@ std::array<Color, 5> ImageColorAnalyzer::analyze()
   cv::parallel_for_(cv::Range(0, K), [&](const cv::Range& range) {
     for (int i = range.start; i < range.end; ++i) {
       cv::Vec3f colorVec = centers.at<cv::Vec3f>(i);
-      colors[i] = Color(static_cast<int>(colorVec[2]), static_cast<int>(colorVec[1]), static_cast<int>(colorVec[0]));
+      uint8_t r = static_cast<uint8_t>(std::clamp(colorVec[2], 0.0f, 255.0f));  // red
+      uint8_t g = static_cast<uint8_t>(std::clamp(colorVec[1], 0.0f, 255.0f));  // green
+      uint8_t b = static_cast<uint8_t>(std::clamp(colorVec[0], 0.0f, 255.0f));  // blue
+      colors[i] = Color(r,g,b);
     }
   });
 
