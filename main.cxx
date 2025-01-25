@@ -19,9 +19,18 @@ std::filesystem::path chooseWallpaper(const std::vector<std::pair<std::filesyste
 int chooseColor(const std::array<Color, 5>& colors);
 std::string rgbToHex(const Color& col);
 std::string rgbaToHex(const Color& col);
+void createDefaultConfig(const std::filesystem::path&);
 
 int main()
 {
+  if (!std::filesystem::exists("config.json"))
+  {
+    spdlog::info("Configuration not found. Creating default config.");
+    createDefaultConfig("config.json");
+  } else {
+    spdlog::info("Configuration already exists");
+  }
+
   std::ifstream configFile("config.json");
   if (!configFile.is_open())
   {
@@ -147,6 +156,39 @@ int chooseColor(const std::array<Color, 5>& colors)
   if (index > colors.size() || index < 0)
     throw std::invalid_argument("invalid color index");
   return index;
+}
+
+void createDefaultConfig(const std::filesystem::path& filePath)
+{
+  json defaultConfig = {
+    {"hyprland", {
+      {"active_color", "rgba(6F608DFF)"},
+      {"inactive_color", "rgba(53486AFF)"},
+      {"path", "/home/wzqrxzd/.config/hypr/hyprland.conf"}
+    }},
+    {"wallpaper", {
+      {"current", "/home/wzqrxzd/Wallpapers/walp2.jpg"},
+      {"hyprpaper_path", "/home/wzqrxzd/.config/hypr/hyprpaper.conf"},
+      {"path_dir", "/home/wzqrxzd/Wallpapers/"}
+    }},
+    {"waybar", {
+      {"color", "#6F608D"},
+      {"path", "/home/wzqrxzd/.config/waybar/style.css"}
+    }},
+    {"wofi", {
+      {"color", "#6F608D"},
+      {"path", "/home/wzqrxzd/.config/wofi/style.css"}
+    }}
+  };
+
+  std::ofstream configFile(filePath);
+  if (!configFile.is_open()) {
+    spdlog::error("Failed to write file: {}", filePath.string());
+    throw std::invalid_argument("FilePath not valid");
+  }
+  configFile << defaultConfig.dump(4);
+  configFile.close();
+  spdlog::info("Default config created at {}", filePath.string());
 }
 
 std::string rgbToHex(const Color& col)

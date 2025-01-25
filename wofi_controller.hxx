@@ -6,7 +6,7 @@
 class WofiController : public Controller {
   public:
     WofiController(nlohmann::json* json);
-    void apply();
+    void apply() override;
 };
 
 #endif

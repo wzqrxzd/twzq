@@ -34,6 +34,4 @@ void WofiController::apply()
 
   ofile << configData;
   ofile.close();
-
-
 }
