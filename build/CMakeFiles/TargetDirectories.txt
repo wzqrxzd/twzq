@@ -1,0 +1,3 @@
+/home/wzqrxzd/projects/theme_setup/oop/cxx/build/CMakeFiles/twzq.dir
+/home/wzqrxzd/projects/theme_setup/oop/cxx/build/CMakeFiles/edit_cache.dir
+/home/wzqrxzd/projects/theme_setup/oop/cxx/build/CMakeFiles/rebuild_cache.dir

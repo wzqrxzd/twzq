@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/home/wzqrxzd/projects/theme_setup/oop/cxx/build",
+  "command": "/usr/bin/c++  -isystem /usr/include/opencv4 -std=gnu++23 -o CMakeFiles/twzq.dir/main.cxx.o -c /home/wzqrxzd/projects/theme_setup/oop/cxx/main.cxx",
+  "file": "/home/wzqrxzd/projects/theme_setup/oop/cxx/main.cxx",
+  "output": "CMakeFiles/twzq.dir/main.cxx.o"
+},
+{
+  "directory": "/home/wzqrxzd/projects/theme_setup/oop/cxx/build",
+  "command": "/usr/bin/c++  -isystem /usr/include/opencv4 -std=gnu++23 -o CMakeFiles/twzq.dir/color.cxx.o -c /home/wzqrxzd/projects/theme_setup/oop/cxx/color.cxx",
+  "file": "/home/wzqrxzd/projects/theme_setup/oop/cxx/color.cxx",
+  "output": "CMakeFiles/twzq.dir/color.cxx.o"
+},
+{
+  "directory": "/home/wzqrxzd/projects/theme_setup/oop/cxx/build",
+  "command": "/usr/bin/c++  -isystem /usr/include/opencv4 -std=gnu++23 -o CMakeFiles/twzq.dir/speltnya_color_analyzer.cxx.o -c /home/wzqrxzd/projects/theme_setup/oop/cxx/speltnya_color_analyzer.cxx",
+  "file": "/home/wzqrxzd/projects/theme_setup/oop/cxx/speltnya_color_analyzer.cxx",
+  "output": "CMakeFiles/twzq.dir/speltnya_color_analyzer.cxx.o"
+},
+{
+  "directory": "/home/wzqrxzd/projects/theme_setup/oop/cxx/build",
+  "command": "/usr/bin/c++  -isystem /usr/include/opencv4 -std=gnu++23 -o CMakeFiles/twzq.dir/hyprland_controller.cxx.o -c /home/wzqrxzd/projects/theme_setup/oop/cxx/hyprland_controller.cxx",
+  "file": "/home/wzqrxzd/projects/theme_setup/oop/cxx/hyprland_controller.cxx",
+  "output": "CMakeFiles/twzq.dir/hyprland_controller.cxx.o"
+}
+]
