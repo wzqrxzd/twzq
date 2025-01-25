@@ -7,15 +7,19 @@
 
 class Color {
   public:
-    Color(int r, int g, int b);
+    Color(int r, int g, int b, int a = 255);
     Color(std::array<int, 3> rgb);
     Color();
     Color(const Color& other);
     Color(Color&& other) noexcept;
 
     union {
-      struct {
-        uint8_t r,g,b,a; // r, g, b
+      struct // DO NOT SWAP (BYTE ORDER PROBLEM)
+      {
+          uint8_t   a;
+          uint8_t   b;
+          uint8_t   g;
+          uint8_t   r;
       };
       uint32_t color_value;    // colorvalue
     };

@@ -66,6 +66,7 @@ int main()
   std::array<Color, 5> colors = img.analyze();
 
   int colorIndex = chooseColor(colors);
+
   Color activeColor(colors[colorIndex].r*0.8, colors[colorIndex].g*0.8, colors[colorIndex].b*0.8);
   Color inactiveColor(colors[colorIndex].r*0.6, colors[colorIndex].g*0.6, colors[colorIndex].b*0.6);
 
@@ -195,20 +196,16 @@ std::string rgbToHex(const Color& col)
 {
   std::stringstream ss;
   ss << '#'
-     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.r)
-     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.g)
-     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.b);
-  return ss.str();
+     << std::setw(8) << std::setfill('0') << std::hex << std::uppercase << col.color_value;
+  std::string hexColor = ss.str();
+  return hexColor.substr(0, hexColor.size() - 2);
 }
 
 std::string rgbaToHex(const Color& col)
 {
   std::stringstream ss;
   std::stringstream rgba;
-  ss << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.r)
-     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.g)
-     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<int>(col.b)
-     << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << 255;
+  ss << std::setw(8) << std::setfill('0') << std::hex << std::uppercase << col.color_value;
 
   rgba << "rgba(" << ss.str() << ")";
 

@@ -2,11 +2,12 @@
 
 Color::Color() : color_value{0} {}
 
-Color::Color(int r, int g, int b)
+Color::Color(int r, int g, int b, int a)
 {
   this->r = r;
   this->g = g;
   this->b = b;
+  this->a = a;
 }
 
 Color& Color::operator=(const Color& other)
