@@ -3,7 +3,7 @@
 #include <regex>
 #include <cstdlib>
 
-WallpaperController::WallpaperController(nlohmann::json* json)
+WallpaperController::WallpaperController(const nlohmann::json* json)
 {
   if (json == nullptr)
     throw std::invalid_argument("json: pointer == nullptr");

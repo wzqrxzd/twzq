@@ -3,14 +3,12 @@
 #include "color.hxx"
 #include <opencv2/opencv.hpp>
 
-ImageColorAnalyzer::ImageColorAnalyzer(std::filesystem::path& pathImg)
+ImageColorAnalyzer::ImageColorAnalyzer(const std::filesystem::path& pathImg) : pathImg{pathImg}
 {
   cv::Mat image = cv::imread(pathImg.string());
   
   if (image.empty())
     throw std::invalid_argument("image: image not exists");
-
-  this->pathImg = pathImg;
 }
 
 /*std::array<Color, 5> ImageColorAnalyzer::analyze()*/

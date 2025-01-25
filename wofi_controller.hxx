@@ -5,7 +5,7 @@
 
 class WofiController : public Controller {
   public:
-    WofiController(nlohmann::json* json);
+    WofiController(const nlohmann::json* json);
     void apply() override;
 };
 

@@ -6,7 +6,7 @@
 class WallpaperController : public Controller
 {
   public:
-    WallpaperController(nlohmann::json* json);
+    WallpaperController(const nlohmann::json* json);
     void apply() override;
 };
 

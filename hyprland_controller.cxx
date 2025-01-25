@@ -2,7 +2,7 @@
 #include <fstream>
 #include <regex>
 
-HyprlandController::HyprlandController(nlohmann::json* json)
+HyprlandController::HyprlandController(const nlohmann::json* json)
 {
   if (json == nullptr)
     throw std::invalid_argument("json: pointer == nullptr");

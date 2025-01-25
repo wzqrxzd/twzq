@@ -9,7 +9,7 @@ class Controller {
     virtual void apply() = 0;
 
   protected:
-    nlohmann::json* config;
+    const nlohmann::json* config;
 };
 
 #endif

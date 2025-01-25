@@ -5,7 +5,7 @@
 
 class WaybarController : public Controller {
   public:
-    WaybarController(nlohmann::json* json);
+    WaybarController(const nlohmann::json* json);
     void apply() override;
 };
 

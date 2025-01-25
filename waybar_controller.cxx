@@ -2,7 +2,7 @@
 #include <fstream>
 #include <regex>
 
-WaybarController::WaybarController(nlohmann::json* json)
+WaybarController::WaybarController(const nlohmann::json* json)
 {
   if (json == nullptr)
     throw std::invalid_argument("json: pointer == nullptr");

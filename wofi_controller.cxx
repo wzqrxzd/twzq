@@ -2,7 +2,7 @@
 #include <fstream>
 #include <regex>
 
-WofiController::WofiController(nlohmann::json* json)
+WofiController::WofiController(const nlohmann::json* json)
 {
   if (json == nullptr)
     throw std::invalid_argument("json: pointer == nullptr");

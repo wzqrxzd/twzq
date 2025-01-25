@@ -8,10 +8,10 @@
 
 class ImageColorAnalyzer {
   public:
-    ImageColorAnalyzer(std::filesystem::path& pathImg);
+    ImageColorAnalyzer(const std::filesystem::path& pathImg);
     std::array<Color, 5> analyze();
   private:
-    std::filesystem::path pathImg;
+    const std::filesystem::path pathImg;
 };
 
 #endif

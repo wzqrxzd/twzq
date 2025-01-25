@@ -5,7 +5,7 @@
 
 class HyprlandController : public Controller {
   public:
-    HyprlandController(nlohmann::json* json);
+    HyprlandController(const nlohmann::json* json);
     void apply() override;
 };
 

@@ -13,7 +13,7 @@ class ConfigManager {
     json loadConfig();
     void saveConfig(const json& config);
   private:
-    fs::path filePath;
+    const fs::path filePath;
     void createDefaultConfig();
 };
 
