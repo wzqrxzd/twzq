@@ -2,7 +2,6 @@
 #include <iostream>
 #include <spdlog/spdlog.h>
 #include <sstream>
-#include <regex>
 #include <memory>
 
 #include "spletnya_color_analyzer.hxx"
@@ -41,6 +40,8 @@ int main()
   config["hyprland"]["inactive_color"] = rgbaToHex(inactiveColor);
   config["waybar"]["color"] = rgbToHex(activeColor);
   config["wofi"]["color"] = rgbToHex(activeColor);
+  config["tpzq"]["accent_color"] = rgbToHex(activeColor);
+  config["tpzq"]["hovered_color"] = rgbToHex(inactiveColor);
 
   std::vector<std::unique_ptr<Controller>> controllers;
   controllers.push_back(std::make_unique<WaybarController>(&config));

@@ -48,24 +48,27 @@ void ConfigManager::saveConfig(const json& config)
 
 void ConfigManager::createDefaultConfig()
 {
+  const char* homeDir = std::getenv("HOME");
+  std::string home(homeDir);
+
   json defaultConfig = {
     {"hyprland", {
       {"active_color", ""},
       {"inactive_color", ""},
-      {"path", "/home/wzqrxzd/.config/hypr/hyprland.conf"}
+      {"path", home + "/.config/hypr/hyprland.conf"}
     }},
     {"wallpaper", {
       {"current", ""},
-      {"hyprpaper_path", "/home/wzqrxzd/.config/hypr/hyprpaper.conf"},
-      {"path_dir", "/home/wzqrxzd/Wallpapers/"}
+      {"hyprpaper_path", home + "/.config/hypr/hyprpaper.conf"},
+      {"path_dir", home + "/Wallpapers/"}
     }},
     {"waybar", {
       {"color", ""},
-      {"path", "/home/wzqrxzd/.config/waybar/style.css"}
+      {"path", home + "/.config/waybar/style.css"}
     }},
     {"wofi", {
       {"color", ""},
-      {"path", "/home/wzqrxzd/.config/wofi/style.css"}
+      {"path", home + "/.config/wofi/style.css"}
     }}
   };
 

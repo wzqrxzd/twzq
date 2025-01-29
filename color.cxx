@@ -7,9 +7,7 @@ Color::Color(const uint8_t& r, const uint8_t& g, const uint8_t& b, const uint8_t
 Color& Color::operator=(const Color& other)
 {
   if (this != &other)
-  {
     color_value = other.color_value;
-  }
   return *this;
 }
 

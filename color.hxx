@@ -2,7 +2,6 @@
 #define COLOR_HXX
 
 #include <unordered_map>
-#include <array>
 #include <cstdint>
 
 class Color {
