@@ -1,3 +1,3 @@
 Application for creating themes for tpzq.
 usage:
-./twzq image.jpg theme.json
+./twzq image\_example.jpg theme\_example.json
