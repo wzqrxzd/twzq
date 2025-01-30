@@ -11,12 +11,7 @@ add_executable(twzq
     main.cxx
     color.cxx
     speltnya_color_analyzer.cxx
-    hyprland_controller.cxx
-    waybar_controller.cxx
-    wallpaper_controller.cxx
-    wofi_controller.cxx
     config_manager.cxx
-    wallpaper_manager.cxx
 )
 
 include_directories(${OpenCV_INCLUDE_DIRS})
