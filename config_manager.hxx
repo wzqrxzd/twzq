@@ -1,5 +1,5 @@
-#ifndef CONFIG_MANAGER
-#define CONFIG_MANAGER
+#ifndef CONFIG_MANAGER_HXX
+#define CONFIG_MANAGER_HXX
 
 #include "json.hpp"
 #include <filesystem>
@@ -9,12 +9,16 @@ namespace fs = std::filesystem;
 
 class ConfigManager {
   public:
-    ConfigManager(const std::filesystem::path& configPath);
-    json loadConfig();
-    void saveConfig(const json& config);
+    ConfigManager(const fs::path& themePath);
+    json getConfig();
+    void saveTheme(const json& theme);
   private:
-    const fs::path filePath;
     void createDefaultConfig();
+    const fs::path configPath = std::getenv("HOME") + std::string("/.config/twzq/config.json");
+    const fs::path themePath;
+    const json defaultConfig{
+      {"wallpaper_dir", std::format("{}/Wallpapers/", std::getenv("HOME"))}
+    };
 };
 
 #endif

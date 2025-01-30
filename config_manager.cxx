@@ -1,24 +1,29 @@
 #include "config_manager.hxx"
-#include <stdexcept>
 #include <spdlog/spdlog.h>
 #include <fstream>
 
-ConfigManager::ConfigManager(const fs::path& configPath) : filePath{configPath}
+ConfigManager::ConfigManager(const fs::path& themePath) : themePath{themePath}
 {
+  if (fs::exists(themePath))
+  {
+    spdlog::warn("Rewrited theme: {}", themePath.string());
+    fs::remove(themePath);
+  }
+  
   if (!fs::exists(configPath))
   {
-    spdlog::info("Configuration not found. Creating default config");
+    spdlog::warn("Default config been created.");
     createDefaultConfig();
   }
 }
 
-json ConfigManager::loadConfig()
+json ConfigManager::getConfig()
 {
-  std::ifstream configFile(filePath);
+  std::ifstream configFile(configPath);
   if (!configFile.is_open())
   {
-    spdlog::error("Failed to open {} file", filePath.string());
-    throw std::runtime_error("Failed to open config file");
+    spdlog::error("Config file {}, failed to load", configPath.string());
+    throw std::runtime_error(std::format("Config file {}, failed to load", configPath.string()));
   }
 
   json config;
@@ -27,50 +32,43 @@ json ConfigManager::loadConfig()
   } catch (const json::exception& e)
   {
     spdlog::error("Error reading JSON: {}", e.what());
-    throw std::runtime_error("Error reading JSON");
+    throw std::runtime_error(std::format("Error reading JSON: {}", e.what()));
   }
 
   return config;
 }
 
-void ConfigManager::saveConfig(const json& config)
+void ConfigManager::saveTheme(const json& theme)
 {
-  std::ofstream ofile(filePath);
-  if (!ofile.is_open())
+  if (!fs::exists(themePath))
+    fs::remove(themePath);
+
+  if (!fs::exists(themePath.parent_path()))
+   fs::create_directory(themePath.parent_path()); 
+  
+  std::ofstream themeFile(themePath);
+  if (!themeFile.is_open())
   {
-    spdlog::error("Failed to open {} file", filePath.string());
-    throw std::runtime_error("Failed to open config file");
+    spdlog::error("Theme file {}, failed to load", themePath.string());
+    throw std::runtime_error(std::format("Theme file {}, failed to load", themePath.string()));
   }
 
-  ofile << config.dump(4);
-  ofile.close();
+  themeFile << theme.dump(4);
+  themeFile.close();
 }
 
 void ConfigManager::createDefaultConfig()
-{
-  const char* homeDir = std::getenv("HOME");
-  std::string home(homeDir);
+{ 
+  if (!fs::exists(configPath.parent_path()))
+   fs::create_directory(configPath.parent_path()); 
 
-  json defaultConfig = {
-    {"hyprland", {
-      {"active_color", ""},
-      {"inactive_color", ""},
-      {"path", home + "/.config/hypr/hyprland.conf"}
-    }},
-    {"wallpaper", {
-      {"current", ""},
-      {"hyprpaper_path", home + "/.config/hypr/hyprpaper.conf"},
-      {"path_dir", home + "/Wallpapers/"}
-    }},
-    {"waybar", {
-      {"color", ""},
-      {"path", home + "/.config/waybar/style.css"}
-    }},
-    {"wofi", {
-      {"color", ""},
-      {"path", home + "/.config/wofi/style.css"}
-    }}
-  };
+  std::ofstream configFile(configPath);
+  if (!configFile.is_open())
+  {
+    spdlog::error("Config file {}, failed to load", configPath.string());
+    throw std::runtime_error(std::format("Config file {}, failed to load", configPath.string()));
+  }
 
-  saveConfig(defaultConfig);
+  configFile << defaultConfig.dump(4);
+  configFile.close();
 }

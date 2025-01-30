@@ -1,3 +1,4 @@
+#include "config_manager.hxx"
 #include "json.hpp"
 #include <iostream>
 #include <spdlog/spdlog.h>
@@ -5,12 +6,6 @@
 #include <memory>
 
 #include "spletnya_color_analyzer.hxx"
-#include "hyprland_controller.hxx"
-#include "waybar_controller.hxx"
-#include "wallpaper_controller.hxx"
-#include "wofi_controller.hxx"
-#include "config_manager.hxx"
-#include "wallpaper_manager.hxx"
 
 using json = nlohmann::json;
 
@@ -18,17 +13,22 @@ int chooseColor(const std::array<Color, 5>& colors);
 std::string rgbToHex(const Color& col);
 std::string rgbaToHex(const Color& col);
 
-int main()
+int main(int argc, char* argv[])
 {
-  ConfigManager cfgManager("config.json");
-  json config(cfgManager.loadConfig());
+  if (argc < 3)
+  {
+    spdlog::error("Usage: twzq \"walpaper\" \"name_theme\"");
+    return 0;
+  }
 
-  WallpaperManager wallpaperManager(&config);
-  fs::path choosenImagePath(wallpaperManager.chooseWallpaper());
+  const fs::path themePath = std::getenv("HOME") + std::string("/.config/tpzq/themes/") + argv[2];
 
-  config["wallpaper"]["current"] = choosenImagePath.string();
+  ConfigManager configMgr(themePath);
+  json config = configMgr.getConfig();
 
-  ImageColorAnalyzer imageAnalyzer(choosenImagePath);
+  const fs::path wallpaperPath = config["wallpaper_dir"].get<std::string>() + argv[1];
+
+  ImageColorAnalyzer imageAnalyzer(wallpaperPath);
   std::array<Color, 5> colors = imageAnalyzer.analyze();
 
   int colorIndex = chooseColor(colors);
@@ -36,23 +36,17 @@ int main()
   Color activeColor(colors[colorIndex].r*0.8, colors[colorIndex].g*0.8, colors[colorIndex].b*0.8);
   Color inactiveColor(colors[colorIndex].r*0.6, colors[colorIndex].g*0.6, colors[colorIndex].b*0.6);
 
-  config["hyprland"]["active_color"] = rgbaToHex(activeColor);
-  config["hyprland"]["inactive_color"] = rgbaToHex(inactiveColor);
-  config["waybar"]["color"] = rgbToHex(activeColor);
-  config["wofi"]["color"] = rgbToHex(activeColor);
-  config["tpzq"]["accent_color"] = rgbToHex(activeColor);
-  config["tpzq"]["hovered_color"] = rgbToHex(inactiveColor);
+  json theme;
 
-  std::vector<std::unique_ptr<Controller>> controllers;
-  controllers.push_back(std::make_unique<WaybarController>(&config));
-  controllers.push_back(std::make_unique<HyprlandController>(&config));
-  controllers.push_back(std::make_unique<WofiController>(&config));
-  controllers.push_back(std::make_unique<WallpaperController>(&config));
+  theme["hyprland"]["active_color"] = rgbaToHex(activeColor);
+  theme["hyprland"]["inactive_color"] = rgbaToHex(inactiveColor);
+  theme["waybar"]["color"] = rgbToHex(activeColor);
+  theme["wofi"]["color"] = rgbToHex(activeColor);
+  theme["tpzq"]["accent_color"] = rgbToHex(activeColor);
+  theme["tpzq"]["hovered_color"] = rgbToHex(inactiveColor);
+  theme["wallpaper"]["current"] = wallpaperPath.string();
 
-  for (const auto& controller : controllers)
-    controller->apply();
-
-  cfgManager.saveConfig(config);
+  configMgr.saveTheme(theme);
 }
 
 int chooseColor(const std::array<Color, 5>& colors)
