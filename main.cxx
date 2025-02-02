@@ -15,9 +15,12 @@ std::string rgbaToHex(const Color& col);
 
 int main(int argc, char* argv[])
 {
+  constexpr double activeFactor = 0.8;
+  constexpr double inactiveFactor = 0.6;
+
   if (argc < 3)
   {
-    spdlog::error("Usage: twzq \"walpaper\" \"name_theme\"");
+    spdlog::error("Usage: twzq \"walpaper\" \"name_theme\" [-icon path_to_icon]");
     return 0;
   }
 
@@ -33,8 +36,13 @@ int main(int argc, char* argv[])
 
   int colorIndex = chooseColor(colors);
 
-  Color activeColor(colors[colorIndex].r*0.8, colors[colorIndex].g*0.8, colors[colorIndex].b*0.8);
-  Color inactiveColor(colors[colorIndex].r*0.6, colors[colorIndex].g*0.6, colors[colorIndex].b*0.6);
+  Color activeColor(colors[colorIndex].r*activeFactor,
+                    colors[colorIndex].g*activeFactor,
+                    colors[colorIndex].b*activeFactor);
+
+  Color inactiveColor(colors[colorIndex].r*inactiveFactor,
+                      colors[colorIndex].g*inactiveFactor,
+                      colors[colorIndex].b*inactiveFactor);
 
   json theme;
 
@@ -44,6 +52,8 @@ int main(int argc, char* argv[])
   theme["wofi"]["color"] = rgbToHex(activeColor);
   theme["tpzq"]["accent_color"] = rgbToHex(activeColor);
   theme["tpzq"]["hovered_color"] = rgbToHex(inactiveColor);
+  theme["cava"]["color"] = rgbToHex(activeColor);
+  theme["dunst"]["color"] = rgbToHex(activeColor);
   theme["wallpaper"]["current"] = wallpaperPath.string();
 
   configMgr.saveTheme(theme);
@@ -53,9 +63,11 @@ int chooseColor(const std::array<Color, 5>& colors)
 {
   for (int i{0}; i < colors.size(); i++)
   {
-    std::cout << "\x1b[48;2;" << static_cast<int>(colors[i].r) << ";" 
-              << static_cast<int>(colors[i].g) << ";" << static_cast<int>(colors[i].b) 
-              << "m" << i << ": " << static_cast<int>(colors[i].r) 
+    std::cout << "\x1b[48;2;" 
+              << static_cast<int>(colors[i].r) << ";" 
+              << static_cast<int>(colors[i].g) << ";"
+              << static_cast<int>(colors[i].b) << "m"
+              << i << ": " << static_cast<int>(colors[i].r) 
               << ", " << static_cast<int>(colors[i].g) << ", " 
               << static_cast<int>(colors[i].b) << "\x1b[0m" << std::endl;
   }
@@ -64,7 +76,7 @@ int chooseColor(const std::array<Color, 5>& colors)
   std::cout << "Choose color: ";
   std::cin >> index;
   if (index > colors.size() || index < 0)
-    throw std::invalid_argument("invalid color index");
+    throw std::invalid_argument("Invalid color index.");
   return index;
 }
 
